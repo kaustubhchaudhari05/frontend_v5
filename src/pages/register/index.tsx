@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 
+export const endpoint = 'http://localhost:4000';
+
 interface RegistrationFormData {
     name: string,
     email: string,
@@ -9,7 +11,8 @@ interface RegistrationFormData {
 
 const Register = () => {
     const [formData, setFormData]: any = useState({ name: '', email: '', password: '' });
-    const [message, setMessage]: any = useState({});
+    const [message, setMessage]: any = useState({ message: '' });
+    const [errorMessage, setErrorMessage]: any = useState({ message: '' });
 
     const handleChange = (e: any) => {
         setFormData({
@@ -22,12 +25,14 @@ const Register = () => {
         e.preventDefault();
 
         try {
-            console.log(formData,"formData");
-            const res = await axios.post('http://localhost:4000/auth/register', formData);
-            setMessage(res?.data?.message);
+            const res = await axios.post(`${endpoint}/register`, formData);
+            console.log(res, "res");
+            setMessage({ message: res?.data?.message });
             setFormData({ name: '', email: '', password: '' })
         } catch (err: any) {
-            setMessage(err?.response?.data?.message);
+            console.log(err?.response?.data?.message, "err?.response?.data?.message");
+            // setMessage(err?.response?.data?.message);
+            setErrorMessage({ message: err?.response?.data?.message });
         }
     };
 
@@ -66,9 +71,13 @@ const Register = () => {
                     <button type="submit">Register</button>
                 </form>
 
-                {message && (
-                    <p style={{ color: 'green', marginTop: '15px' }}>{message.message}</p>
-                )}
+                {message && !errorMessage ? (
+                    <p style={{ color: 'green', marginTop: '15px' }}>{message?.message}</p>
+                ) : <p style={{ color: 'red', marginTop: '20px' }}>{errorMessage?.message}</p>}
+
+                {/* {errorMessage && (
+                    <p style={{ color: 'red', marginTop: '15px' }}>{errorMessage}</p>
+                )} */}
             </div>
         </>
     );

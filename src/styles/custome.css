@@ -1,0 +1,23 @@
+.register-container {
+    height: 100vh;
+    background: linear-gradient(to right, #a18cd1, #fbc2eb);
+  }
+  
+  .register-box {
+    width: 90%;
+    max-width: 1000px;
+    background-color: #fff;
+  }
+  
+  .left-panel {
+    background-color: #f5f7fa;
+  }
+  
+  .right-panel img {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .right-panel img:hover {
+    transform: scale(1.1);
+  }

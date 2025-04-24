@@ -6,6 +6,7 @@ import Register from './pages/register';
 import HomePage from './pages/home';
 import { routes } from './routes';
 import LoginPage from './pages/login';
+import DashboardPage from './pages/dashboard';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
       </Routes>
     </Router>
   );

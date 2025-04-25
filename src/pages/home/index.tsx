@@ -9,6 +9,7 @@ const HomePage = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({ name: '', email: '', password: '' });
     const [message, setMessage] = useState({ message: '' });
+    const [statusCode, setStatusCode] = useState({ code: 0 })
 
     const handleOnChange = async (e: any) => {
         setFormData({
@@ -17,15 +18,20 @@ const HomePage = () => {
         })
     }
 
-    const handleSubmit = async (e:any) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
 
         try {
             const res = await axios.post(`${endpoint}/register`, formData);
             console.log(res, "res");
+            setStatusCode({ code: res?.status })
             setMessage({ message: res?.data?.message });
             setFormData({ name: '', email: '', password: '' })
+            setTimeout(() => {
+                navigate('/login');
+            }, 2000);
         } catch (err: any) {
+            setStatusCode({ code: err?.response?.status })
             console.log(err?.response?.data?.message, "err?.response?.data?.message");
             // setMessage(err?.response?.data?.message);
             setMessage({ message: err?.response?.data?.message });
@@ -73,6 +79,8 @@ const HomePage = () => {
                                 <Form.Control type="password" name="password" placeholder="8+ characters" value={formData?.password} onChange={handleOnChange} />
                             </Form.Group>
 
+                            {message &&
+                                <p style={{ color: statusCode?.code === 201 ? 'green' : 'red', marginTop: '15px' }}>{message?.message}</p>}
                             <Button variant="primary" className="w-100 mb-3" type="submit">
                                 Register
                             </Button>
